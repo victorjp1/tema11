@@ -1,8 +1,8 @@
 package com.victorlopez.Ejercicio05;
 
-public abstract class RecursosPrimarios extends Item {
+public abstract class Bloques extends Item {
     private final int MAX_STACK = 64;
-    public RecursosPrimarios(){
+    public Bloques(){
         maxStack = MAX_STACK;
     }
 }

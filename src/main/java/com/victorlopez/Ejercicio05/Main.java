@@ -21,7 +21,7 @@ public class Main {
                     imprimirSobrante(sobrante);
                     break;
                 case 2://Opción para borrar un Item del menú
-                    borrar();
+                    removeItem();
                     break;
                 case 3://Opción para mostrar el inventario
                     System.out.println(inventario.toString());
@@ -126,7 +126,7 @@ public class Main {
     /**
      * Método para borrar un Item del inventario
      */
-    public static void borrar(){
+    public static void removeItem(){
         int total;
         Item item;
         int cantidad;
@@ -172,12 +172,14 @@ public class Main {
             case 2:
                 return new Espada();
             case 3:
-                return new Madera();
+                return new Hacha();
             case 4:
-                return new Piedra();
+                return new Madera();
             case 5:
-                return new Huevo();
+                return new Piedra();
             case 6:
+                return new Huevo();
+            case 7:
                 return new EnderPearl();
             default:
                 return null;
@@ -194,16 +196,17 @@ public class Main {
             System.out.println("Elije un item");
             System.out.println("1. Pico");
             System.out.println("2. Espada");
-            System.out.println("3. Madera");
-            System.out.println("4. Piedra");
-            System.out.println("5. Huevo");
-            System.out.println("6. Piedra de Ender");
+            System.out.println("3. Hacha");
+            System.out.println("4. Madera");
+            System.out.println("5. Piedra");
+            System.out.println("6. Huevo");
+            System.out.println("7. Piedra de Ender");
             System.out.println("----------------------------");
             System.out.println("0. Volver al menú principal");
 
             try {
                 opcion = Integer.parseInt(lector.nextLine());
-                if (opcion >= 0 && opcion <= 6) {
+                if (opcion >= 0 && opcion <= 7) {
                     validado = true;
                 } else {
                     validado = false;

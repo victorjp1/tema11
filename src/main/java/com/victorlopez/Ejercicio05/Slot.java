@@ -4,14 +4,14 @@ public class Slot {
 
     private boolean vacio;//Variable que dice
     private int stack;//Variable que almacena el Stack que tiene en este momento
-    private Item objeto;//Objeto que contiene el Slot
+    private Item item;//Objeto que contiene el Slot
 
     /**
      * Constructor de la clase Slot
      */
     public Slot() {
         vacio = true;
-        objeto = null;
+        item = null;
         stack = 0;
     }
 
@@ -20,7 +20,7 @@ public class Slot {
      * @param objeto nuevo objeto
      */
     public void setItem(Item objeto){
-            this.objeto = objeto;
+            this.item = objeto;
             vacio = false;
     }
 
@@ -31,9 +31,9 @@ public class Slot {
      */
     public int stackItem(int num){
         int sobrante = 0;
-        if(stack + num > objeto.getMaxStack()){
-            sobrante = num - (objeto.getMaxStack() - stack);
-            stack = objeto.getMaxStack();
+        if(stack + num > item.getMaxStack()){
+            sobrante = num - (item.getMaxStack() - stack);
+            stack = item.getMaxStack();
         }else{
             stack += num;
             sobrante = 0;
@@ -60,7 +60,7 @@ public class Slot {
      * @return Item en el Slot
      */
     public Item getItem(){
-        return objeto;
+        return item;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Slot {
         if (isVacio()){
             return "\"Vacío\"";
         }else{
-            return stack + " " + objeto.getNombre();
+            return stack + " " + item.getNombre();
         }
     }
 
