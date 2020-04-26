@@ -52,7 +52,7 @@ public class Main {
         if(sobrante > 0) {
             System.out.println("Han sobrado " + sobrante);
         }else {
-            System.out.println("La operación se ha realizado correctamente.");
+            System.out.println("Items añadidos correctamente.");
         }
         Lib.pausa();
     }
