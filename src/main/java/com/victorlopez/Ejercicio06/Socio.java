@@ -4,17 +4,23 @@ import java.time.LocalDate;
 
 public class Socio extends Persona {
     private String poblacion;
-    private boolean alquilerPendiente;
     public Socio(String dni, String nombre,String apellidos, LocalDate fechaNacimiento, String poblacion) {
         super(dni, nombre,apellidos, fechaNacimiento);
         this.poblacion = poblacion;
-        alquilerPendiente = false;
     }
 
+    /**
+     * Método para obtener la poblacion del Socio
+     * @return devuelve la poblacion (String)
+     */
     public String getPoblacion() {
         return poblacion;
     }
 
+    /**
+     * Método para cambiar la poblacion
+     * @param poblacion poblacion a cambiar
+     */
     public void setPoblacion(String poblacion) {
         this.poblacion = poblacion;
     }
@@ -26,6 +32,6 @@ public class Socio extends Persona {
                 ", dni = '" + dni + '\'' +
                 ", Nombre = '" + nombre + '\'' +
                 ", Fecha de Nacimiento = " + fechaNacimiento +
-                '}';
+                '}' + "\n";
     }
 }

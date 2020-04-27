@@ -12,14 +12,26 @@ public class Videojuego extends Multimedia{
         precioFinal = precioFinal();
     }
 
+    /**
+     * Método para cambiar la plataforma del  videojuego
+     * @param plataforma plataforma a cambiar
+     */
     public void setPlataforma(Plataforma plataforma) {
         this.plataforma = plataforma;
     }
 
+    /**
+     * Método para obtener la plataforma
+     * @return Plataforma
+     */
     public Plataforma getPlataforma() {
         return plataforma;
     }
 
+    /**
+     * Precio final sin contar recargos
+     * @return PrecioFinal
+     */
     public int precioFinal(){
         int precioFinal = PRECIO_BASE;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -41,6 +53,6 @@ public class Videojuego extends Multimedia{
                 ", disponible=" + disponible +
                 "plataforma=" + plataforma +
                 ", precioFinal=" + precioFinal +
-                '}';
+                '}' + "\n";
     }
 }

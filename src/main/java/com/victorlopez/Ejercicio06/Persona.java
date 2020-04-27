@@ -16,18 +16,26 @@ public abstract class Persona {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getPersona() {
-        return persona;
-    }
-
+    /**
+     * Método que devuelve la fecha de Nacimiento
+     * @return Devuelve la fecha de nacimiento
+     */
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
+    /**
+     * Método que devuelve el DNI
+     * @return DNI (String)
+     */
     public String getDni() {
         return dni;
     }
 
+    /**
+     * Método para obtener el nombre
+     * @return Nombre (String)
+     */
     public String getNombre() {
         return nombre;
     }
@@ -39,12 +47,5 @@ public abstract class Persona {
                 ", nombre = '" + nombre + '\'' +
                 ", fechaNacimiento = " + fechaNacimiento +
                 '}';
-    }
-
-    public int getEdad(){
-        LocalDate ahora = LocalDate.now();
-        Period periodo = Period.between(fechaNacimiento, ahora);
-        int a = periodo.getYears();
-        return a;
     }
 }

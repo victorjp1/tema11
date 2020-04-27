@@ -18,6 +18,10 @@ public class Actor extends Persona{
                 '}';
     }
 
+    /**
+     * Método para obtener el sexo del actor
+     * @return Sexo
+     */
     public Sexo getSexo() {
         return sexo;
     }

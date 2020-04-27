@@ -3,6 +3,7 @@ package com.victorlopez.Ejercicio06;
 import com.victorlopez.Lib;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class Main {
             }
         }while (!salir);
     }
+
+    /**
+     * Método para la gestión de los alquileres
+     */
     public static void gestionAlquileres(){
         boolean volver = false;
         do {
@@ -44,7 +49,7 @@ public class Main {
                     alquilarMultimedia();
                     break;
                 case 2:
-                    //devolverMultimedia();
+                    devolverMultimedia();
                     break;
                 case 0:
                     volver = true;
@@ -52,6 +57,60 @@ public class Main {
             }
         }while (!volver);
     }
+
+    /**
+     * Método para devolver un multimedia
+     */
+    public static void devolverMultimedia(){
+        System.out.println("Datos del producto: ");
+        int precio;
+        int id = pedirId();
+        boolean aceptaPrecio;
+        Multimedia m =videoClub.buscarMultimediaId(id);
+        if (m != null){
+            precio = videoClub.consultarPrecioDevolucion(m);
+            if (precio > 0){
+                aceptaPrecio = consultarCliente(precio);
+                if (aceptaPrecio){
+                    videoClub.devolverMultimedia(m);
+                    System.out.println("Alquiler devuelto correctamente");
+                }else {
+                    System.out.println("Se ha cancelado la devolución");
+                }
+            }else{
+                System.out.println("No existe un alquiler pendiente con ese producto");
+            }
+        }else{
+            System.out.println("No existe un producto con ese ID");
+        }
+    }
+
+    /**
+     * Método para consultar el precio
+     * @param precio precio a consultar
+     * @return true si acepta, false si no
+     */
+    public static boolean consultarCliente(int precio){
+        char c;
+        do {
+            System.out.println("El precio total es de: " + precio);
+            System.out.println("El cliente acepta el precio? [S/N]");
+            c = lector.nextLine().toUpperCase().trim().charAt(0);
+            if (c == 'S'){
+                return true;
+            }else if (c == 'N'){
+                return false;
+            }else{
+                validado = false;
+                System.out.println("Opción no válida");
+            }
+        }while (!validado);
+        return false;
+    }
+
+    /**
+     * Método para alquilar multimedia un producto
+     */
     public static void alquilarMultimedia(){
         System.out.println("Introduce los datos del socio");
         String dni = pedirDni();
@@ -83,6 +142,11 @@ public class Main {
             Lib.limpiarPantalla();
         }
     }
+
+    /**
+     * Menú de alquileres
+     * @return opcion ya validada
+     */
     public static int menuAlquileres(){
         int opcion = -1;
         do {
@@ -111,6 +175,10 @@ public class Main {
         }while (!validado);
         return opcion;
     }
+
+    /**
+     * Método para las consultas realizar las consultas
+     */
     public static void consultas(){
         boolean volver = false;
         do {
@@ -129,12 +197,63 @@ public class Main {
                     Collections.sort( videojuegos, new Multimedia.OrdenarPorAño());
                     System.out.println(videojuegos.toString());
                     break;
+                case 4:
+                    ArrayList<Alquiler> a1 = alquileresSocio();
+                    if (a1 != null){
+                        Collections.sort(a1);
+                        System.out.println(a1.toString());
+                    }
+                    break;
+                case 5:
+                    Alquiler a = alquilerActualSocio();
+                    if (a != null){
+                        System.out.println(a.toString());
+                    }else {
+                        System.out.println("No tiene alquileres ahora mismo");
+                    }
+                    break;
+                case 6:
+                    ArrayList<Socio> s = videoClub.sociosConRecargo();
+                    System.out.println(s.toString());
+                    break;
                 case 0:
                     volver = true;
+                    System.out.println("Has elegido volver");
                     break;
             }
+            Lib.pausa();
+            Lib.limpiarPantalla();
         }while (!volver);
     }
+    public static Alquiler alquilerActualSocio(){
+        System.out.println("Datos del socio:");
+        String dni = pedirDni();
+        Socio s = videoClub.buscarSocioDni(dni);
+        if (s == null){
+            System.out.println("No existe un socio con ese DNI");
+        }else{
+            return videoClub.alquilerActualSocio(s);
+        }
+        return null;
+    }
+    /**
+     * Método para imprimir los alquileres de un socio
+     */
+    public static ArrayList<Alquiler> alquileresSocio(){
+        System.out.println("Datos del socio:");
+        String dni = pedirDni();
+        Socio s = videoClub.buscarSocioDni(dni);
+        if (s == null){
+            System.out.println("No existe un socio con ese DNI");
+        }else{
+            return videoClub.alquileresSocio(s);
+        }
+        return null;
+    }
+    /**
+     * Método para el menú de consultas
+     * @return devuelve la opcion ya validada
+     */
     public static int menuConsultas(){
         int opcion = -1;
         do {
@@ -145,7 +264,7 @@ public class Main {
                 System.out.println("1. Todos los objetos Multimedia");
                 System.out.println("2. Todas las películas ordenadas por título");
                 System.out.println("3. Todos los videojuegos ordenados por año");
-                System.out.println("4. Histórico de alquileres actuales de un socio por fecha de alquiler");
+                System.out.println("4. Alquileres de un socio por año");
                 System.out.println("5. Alquileres actuales de un socio");
                 System.out.println("6. Socios con recargos pendientes");
                 System.out.println("------------------------");
@@ -167,6 +286,10 @@ public class Main {
         }while (!validado);
         return opcion;
     }
+
+    /**
+     * Metodo que gestiona las altas
+     */
     public static void gestionAltas() {
         boolean volver = false;
         do {
@@ -185,14 +308,39 @@ public class Main {
             }
         }while (!volver);
     }
+
+    /**
+     * Método para añadir un nuevo socio
+     */
     public static void nuevoSocio(){
-        String dni = pedirDni();
-        String nombre = pedirNombre();
-        String apellidos = pedirApellidos();
         LocalDate fechaNacimiento = pedirFechaNacimiento();
-        String poblacion = pedirPoblacion();
-        videoClub.addSocio(dni, nombre, apellidos, fechaNacimiento, poblacion);
+        if (getEdad(fechaNacimiento) < 18){
+            System.out.println("No puede existir un socio menor de edad");
+        }else{
+            String dni = pedirDni();
+            String nombre = pedirNombre();
+            String apellidos = pedirApellidos();
+            String poblacion = pedirPoblacion();
+            videoClub.addSocio(dni, nombre, apellidos, fechaNacimiento, poblacion);
+        }
     }
+
+    /**
+     * Método para obtener la edad de una fecha
+     * @param fechaNacimiento fecha a valorar
+     * @return años que han pasado
+     */
+    public static int getEdad(LocalDate fechaNacimiento){
+        LocalDate ahora = LocalDate.now();
+        Period periodo = Period.between(fechaNacimiento, ahora);
+        int a = periodo.getYears();
+        return a;
+    }
+
+    /**
+     * Método para pedir la poblacion al socio
+     * @return devuelve la poblacion
+     */
     public static String pedirPoblacion(){
         String poblacion;
         do {
@@ -272,6 +420,10 @@ public class Main {
         } while (!validado);
         return fechaNacimiento;
     }
+
+    /**
+     * Método para añadir un videojuego
+     */
     public static void nuevoVideojuego(){
         System.out.println("Empezamos con los datos del videojuego");
         String titulo = pedirTitulo();
@@ -282,6 +434,10 @@ public class Main {
         videoClub.addVideojuego(titulo, e, f,fechaEstreno, p);
     }
 
+    /**
+     * Método para pedir la plataforma
+     * @return devuelve la plataforma
+     */
     public static Plataforma pedirPlataforma(){
         int id;
         Plataforma p = null;
@@ -304,6 +460,10 @@ public class Main {
         }while (!validado);
         return p;
     }
+
+    /**
+     * Método para añadir una nueva película.
+     */
     public static void nuevaPelicula() {
         System.out.println("Vamos con los datos de la película:");
         String titulo = pedirTitulo();
@@ -315,6 +475,11 @@ public class Main {
         int duracion = pedirDuracion();
         videoClub.addPelicula(duracion,titulo,e, f, actorPrinc, actrizPrinc, fechaEstreno);
     }
+
+    /**
+     * Método para pedir duración de la película
+     * @return duración
+     */
     public static int pedirDuracion(){
         int duracion = -1;
         do {
@@ -338,6 +503,11 @@ public class Main {
         }while (!validado);
         return duracion;
     }
+
+    /**
+     * Método para pedir la actriz principal de la pelicula
+     * @return actriz principal (Actor)
+     */
     public static Actor pedirActrizPrincipal(){
         Actor a;
         System.out.println("Seguimos con la Actriz Principal:");
@@ -355,6 +525,10 @@ public class Main {
         return a;
     }
 
+    /**
+     * Método para pedir el Actor Principal
+     * @return Actor principal (Actor)
+     */
     public static Actor pedirActorPrincipal(){
         Actor a;
         System.out.println("Seguimos con el Actor Principal");
@@ -371,6 +545,11 @@ public class Main {
         }while (!validado);
         return a;
     }
+
+    /**
+     * Método para pedir el formato
+     * @return Formato
+     */
     public static Formato pedirFormato(){
         int opcion = menuFormato();
         switch (opcion){
@@ -380,10 +559,16 @@ public class Main {
                 return Formato.DVD;
             case 3:
                 return Formato.BLURAY;
-            default:
+            case 4:
                 return Formato.ARCHIVO;
         }
+        return null;
     }
+
+    /**
+     * Menú para elegir el formato
+     * @return opcion ya validada
+     */
     public static int menuFormato(){
         int opcion = -1;
         do {
@@ -407,6 +592,11 @@ public class Main {
         }while (!validado);
         return opcion;
     }
+
+    /**
+     * Método para pedir la empresa
+     * @return Empresa
+     */
     public static Empresa pedirEmpresa(){
         Empresa a;
         do {
@@ -424,6 +614,11 @@ public class Main {
         Lib.limpiarPantalla();
         return a;
     }
+
+    /**
+     * Método para pedir un ID
+     * @return ID ya validado
+     */
     public static int pedirId(){
         int id = -1;
         do {
@@ -446,6 +641,11 @@ public class Main {
         }while (!validado);
         return id;
     }
+
+    /**
+     * Método para pedir el título
+     * @return Título ya validado
+     */
     public static String pedirTitulo(){
         String titulo;
         do {
@@ -460,6 +660,11 @@ public class Main {
         }while (!validado);
         return titulo;
     }
+
+    /**
+     * Menú de altas
+     * @return opcion elegida ya validada
+     */
     public static int menuAltas(){
         int opcion = -1;
         do {
@@ -487,6 +692,10 @@ public class Main {
         return opcion;
     }
 
+    /**
+     * Menú principal de la App
+     * @return opcion ya validada
+     */
     public static int mostrarMenu(){
         int opcion = -1;
         do {
@@ -520,7 +729,7 @@ public class Main {
     public static String pedirDni(){
         String dni;
         do {
-            System.out.println("Introduce el número de DNI del empleado: ");
+            System.out.println("Introduce el número de DNI: ");
             dni = lector.nextLine().toUpperCase().trim();
             try{
                 if (compruebaNIF(dni)){

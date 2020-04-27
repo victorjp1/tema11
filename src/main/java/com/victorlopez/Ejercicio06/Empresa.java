@@ -11,14 +11,26 @@ public class Empresa{
         this.id = ++nEmpresas;
     }
 
+    /**
+     * Método para obtener el nombre de la empresa
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Método para obtener el ID de la empresa
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Método toString de empresa
+     * @return String generado
+     */
     @Override
     public String toString() {
         return "Empresa{" +
