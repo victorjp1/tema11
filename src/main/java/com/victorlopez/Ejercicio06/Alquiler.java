@@ -57,9 +57,8 @@ public class Alquiler implements Comparable<Alquiler>{
         if (d > 3){
             d -= 3;
             precioFinal += (d*2);
-            return precioFinal;
         }
-        return -1;
+        return precioFinal;
     }
 
     /**

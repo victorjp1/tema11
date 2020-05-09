@@ -81,9 +81,11 @@ public class VideoClub {
     public boolean devolverMultimedia(Multimedia m){
         for (int i = 0; i < alquileres.size(); i++) {
             if (alquileres.get(i).getMultimedia().getId() == m.getId()){
-                alquileres.get(i).devolver(LocalDate.now());
-                m.setDisponible(true);
-                return true;
+                if (!alquileres.get(i).getMultimedia().isDisponible()){
+                    alquileres.get(i).devolver(LocalDate.now());
+                    m.setDisponible(true);
+                    return true;
+                }
             }
         }
         return false;
@@ -95,9 +97,6 @@ public class VideoClub {
      */
     public int consultarPrecioDevolucion(Multimedia m){
         int precio = -1;
-        if (m.isDisponible()){
-            return precio;
-        }
         for (int i = 0; i < alquileres.size(); i++) {
             if (alquileres.get(i).getMultimedia().getId() == m.getId()){
                 precio = alquileres.get(i).precioFinal(LocalDate.now());
@@ -184,7 +183,7 @@ public class VideoClub {
         alquileres.add(new Alquiler(productos.get(0),socios.get(0), f9));
         alquileres.get(2).devolver(f10);
         alquileres.add(new Alquiler(productos.get(2), socios.get(0), f10));
-        alquileres.add(new Alquiler(productos.get(1), socios.get(2), f10));
+        alquileres.add(new Alquiler(productos.get(1), socios.get(1), f10));
     }
 
     /**
